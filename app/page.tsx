@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client"
 
 import React, { useState, useEffect } from 'react';
@@ -144,9 +145,7 @@ export default function App() {
             filteredProducts.map(product => (
               <div key={product.id} className={`rounded-lg border shadow-sm hover:shadow-md transition-all flex flex-col overflow-hidden h-full group ${isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-200'}`}>
                 <div className={`relative h-48 sm:h-56 overflow-hidden ${isDarkMode ? 'bg-slate-700' : 'bg-slate-100'}`}>
-                  <Image
-                  width={100}
-                  height={70}
+                  <img
 
                   src={product.image} alt={product.name} className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300"/>
                 </div>

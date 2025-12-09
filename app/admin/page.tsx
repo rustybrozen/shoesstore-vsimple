@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client"
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import axios from 'axios';
@@ -291,7 +292,7 @@ export default function AdminPage() {
                                         <input type="file" name="imageFile" accept="image/*" ref={fileInputRef} className="border p-2 w-full rounded mb-2 text-sm" />
                                         <input name="imageUrlInput" defaultValue={editProduct?.image.startsWith('http') ? editProduct.image : ''} placeholder="Hoặc dán link ảnh online..." className="border p-2 w-full rounded text-sm" />
                                         {editProduct?.image && (
-                                            <div className="mt-2"><Image width={60} height={60} src={editProduct.image} alt="Current" className="rounded border object-cover" /></div>
+                                            <div className="mt-2"><img src={editProduct.image} alt="Current" className="rounded border object-cover" /></div>
                                         )}
                                     </div>
 
@@ -314,7 +315,7 @@ export default function AdminPage() {
                             <div className="space-y-2 max-h-[600px] overflow-y-auto">
                                 {products.map(p => (
                                     <div key={p.id} className="flex gap-4 border p-3 rounded bg-white items-center shadow-sm">
-                                        <Image width={60} height={60} src={p.image} className="rounded border bg-gray-50 object-cover h-14 w-14" alt={p.name} />
+                                        <img src={p.image} className="rounded border bg-gray-50 object-cover h-14 w-14" alt={p.name} />
                                         <div className="flex-1 min-w-0">
                                             <div className="font-medium truncate">{p.name}</div>
                                             <div className="text-sm text-red-500 font-bold">{p.price.toLocaleString()}đ <span className="text-gray-400 font-normal ml-2 text-xs">{p.category?.name}</span></div>
