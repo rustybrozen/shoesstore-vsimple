@@ -1,0 +1,23 @@
+
+
+services:
+  web:
+    build: .
+    container_name: shoes-store
+    restart: always
+    # KHÔNG DÙNG PORTS ĐỂ TRÁNH MỞ RA NGOÀI INTERNET TRỰC TIẾP
+    # Coolify sẽ tự động kết nối vào port 3000 (do trong Dockerfile đã EXPOSE 3000)
+    
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+    
+    volumes:
+      # Map 2 kho dữ liệu quan trọng
+      - shoes_db_data:/app/data
+      - shoes_uploads:/app/public/uploads
+
+# Định nghĩa kho
+volumes:
+  shoes_db_data:
+  shoes_uploads:

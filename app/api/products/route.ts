@@ -30,15 +30,14 @@ function deleteFile(imageUrl: string) {
   try {
 
     if (imageUrl && imageUrl.startsWith("/uploads/")) {
-      // Đường dẫn thực tế: public/uploads/ten-anh.jpg
+   
       const filePath = path.join(process.cwd(), "public", imageUrl);
       if (fs.existsSync(filePath)) {
-        fs.unlinkSync(filePath); // Xóa file
+        fs.unlinkSync(filePath); 
       }
     }
   } catch (error) {
     console.error("Lỗi xóa file ảnh:", error);
-    // Không throw lỗi ở đây để code vẫn tiếp tục xóa DB được
   }
 }
 
@@ -51,7 +50,7 @@ export async function GET() {
   `);
   const products = stmt.all();
 
-  // Đã bỏ brand, isSale, oldPrice
+
   const formatted = (products as Product[]).map((p) => ({
     ...p,
     category: p.categoryName ? { name: p.categoryName } : null,
@@ -74,7 +73,7 @@ export async function POST(req: Request) {
         "https://placehold.co/300x300?text=No+Image";
     }
 
-    // Đã bỏ brand, oldPrice, isSale
+
     const stmt = db.prepare(`
       INSERT INTO products (name, price, image, url, categoryId)
       VALUES (?, ?, ?, ?, ?)
@@ -106,17 +105,16 @@ export async function PUT(req: Request) {
     const imageFile = formData.get("imageFile") as File | null;
     let imageUrl = formData.get("existingImage") as string;
 
-    // Logic: Nếu upload ảnh mới -> Có thể xóa ảnh cũ nếu muốn tiết kiệm dung lượng
-    // Ở đây tôi làm đơn giản là ghi đè link mới thôi
+
     if (imageFile && imageFile.size > 0) {
-        // (Optional) Nếu muốn xóa ảnh cũ khi update thì gọi deleteFile(imageUrl) ở đây trước khi gán link mới
+   
         imageUrl = await saveFile(imageFile);
     } else {
         const urlInput = formData.get("imageUrlInput") as string;
         if (urlInput) imageUrl = urlInput;
     }
 
-    // Đã bỏ brand, oldPrice, isSale
+  
     const stmt = db.prepare(`
       UPDATE products 
       SET name=?, price=?, image=?, url=?, categoryId=?
@@ -146,16 +144,16 @@ export async function DELETE(req: Request) {
   if (!id) return NextResponse.json({ error: "Missing ID" }, { status: 400 });
 
   try {
-      // 1. Lấy thông tin sản phẩm trước để lấy link ảnh
+ 
       const getStmt = db.prepare("SELECT image FROM products WHERE id = ?");
       const product = getStmt.get(id) as Product;
 
-      // 2. Nếu có ảnh và ảnh nằm trong thư mục uploads thì xóa
+ 
       if (product && product.image) {
           deleteFile(product.image);
       }
 
-      // 3. Xóa trong Database
+     
       const delStmt = db.prepare("DELETE FROM products WHERE id = ?");
       delStmt.run(id);
 

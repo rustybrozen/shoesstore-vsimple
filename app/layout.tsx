@@ -28,6 +28,9 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {children}
+        <div className="text-center py-6 text-xs text-gray-400 bg-gray-50">
+          © Quyền Shoes Store Được Bảo Lưu.
+        </div>
       </body>
     </html>
   );
